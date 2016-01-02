@@ -1,0 +1,21 @@
+{
+  "name": "myapp",
+  "version": "0.0.0",
+  "dependencies": {
+    "font-awesome": "~4.4.0",
+    "lodash": "~3.10.1",
+    "phaser": "~2.4.3",
+    "stats.js": "*"
+  },
+  "externals": {
+    "tinycolor": "tinycolor",
+    "lodash": "_",
+    "phaser": "Phaser",
+    "stats": "Stats"
+  },
+  "overrides":{
+    "phaser":{
+      "main": "build/custom/phaser-arcade-physics.js"
+    }
+  }
+}

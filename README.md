@@ -1,6 +1,6 @@
 ![Phaser Logo](http://i.imgur.com/FurA10V.png?1)
 
-@webcaetano Phaser.io Boilerplate
+[@webcaetano](https://github.com/webcaetano) Phaser.io Boilerplate
 
 ## Installation
 

@@ -6,10 +6,8 @@ var rootScope = {
 	options:{
 		width:700,
 		height:500,
-		where:'wizz-canvas'
+		where:'master-canvas'
 	},
-	skipSignature:false,
-	skipStartScreen:false,
 	debug:false // make sure set it to false when release
 }
 

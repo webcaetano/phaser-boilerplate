@@ -243,7 +243,7 @@ self.$newSprite = function(game,key,options){
 	}
 
 	tmpObj.$atlasAnims = function(name,anims){
-		self._loadAltasAnimation(this,name,anims);
+		self.loadAltasAnimation(this,name,anims);
 		return this;
 	}
 

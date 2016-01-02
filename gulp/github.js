@@ -15,7 +15,8 @@ var $ = require('gulp-load-plugins')();
 module.exports = function(options) {
 	var packageSrc = './package.json';
 
-	var bump = function(type='patch'){
+	var bump = function(type){
+		if(!type) type = 'patch'
 		return gulp.src(['./bower.json',packageSrc])
 		.pipe($.bump({
 			version: options.version,

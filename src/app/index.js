@@ -1,29 +1,26 @@
-'use strict';
-
-require('./modules/stats')();
 var utils = require('./modules/utils');
 var _ = require('lodash');
 var Phaser = require('phaser');
-
-var game;
-var self = {};
-
-var options = {
-	width:500,
-	height:400,
-	where:'wizz-canvas'
+// var browser = browserDetection();
+var rootScope = {
+	options:{
+		width:700,
+		height:500,
+		where:'wizz-canvas'
+	},
+	skipSignature:false,
+	skipStartScreen:false,
+	debug:false // make sure set it to false when release
 }
 
-game = new Phaser.Game(options.width, options.height, Phaser.AUTO, options.where, options.where);
-game.state.add('game', {
-	preload:function preload(){
-		game.stage.backgroundColor = '#fff';
-	},
-	create:function create(){
-	},
-	update:function update(){
-	}
-});
+// @if !dist
+require('./modules/stats')();
+// @endif
 
 
+var game = new Phaser.Game(rootScope.options.width, rootScope.options.height, Phaser.CANVAS, rootScope.options.where, rootScope.options.where);
+
+game.state.add('game', require('./game')(game,rootScope));
+
+// game.state.start('blank');
 game.state.start('game');

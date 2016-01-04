@@ -5,6 +5,7 @@ var browserSync = require('browser-sync');
 var util = require('util');
 var cp = require('child_process');
 
+
 module.exports = function(options) {
 
 	function browserSyncInit(baseDir, browser) {
@@ -26,6 +27,7 @@ module.exports = function(options) {
 			startPath: '/',
 			server: server,
 			browser: browser,
+			notify: false,
 			//proxy: 'localhost:8000',
 			// port:4000,
 			open: false

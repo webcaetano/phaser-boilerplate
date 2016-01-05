@@ -2,6 +2,13 @@
 
 [@webcaetano](https://github.com/webcaetano) Phaser.io Boilerplate in Gulp ES6 (babel)
 
+## Features
+
+- ES6
+- Craft.js module (helper for create and extend phaser objects functions in a chainable way)
+- Utils.js module (common gaming functions e.g.)
+
+
 ## Installation
 
 ```
@@ -25,7 +32,7 @@ gulp build
 ```
 
 
-#### Build and Deploy to gh-pages
+#### Deploy to gh-pages
 
 ```
 gulp deploy
@@ -55,3 +62,33 @@ gulp minor
 gulp major
 // 1.1.0 -> 2.0.0
 ```
+
+#### Example of craft.js
+
+```javascript
+var group = craft.$g(); // create a group // .$g() is alias for .$group()
+
+var sprite = craft.$sprite('phaser') // create the sprite with key 'phaser'
+.$set({
+	x:100,
+	y:100,
+	name:'foo'
+}) // set atributes based on a object
+.$mid() // same as sprite.anchor.setTo(0.5)
+.$into(group) // insert into group
+.$tint('#FF0000'); // tint accept '#' or '0x' or '' 
+
+var ball = craft.$circle({ 
+	fill:'#FF00FF',
+	size:40
+}) // same as game.add.graphics(0,0).beginFill(0xFF00FF).drawCircle(0,0,40)
+.$set({
+	x:200,
+	y:200,
+}) // set position
+.$into(group) // insert into group
+```
+
+Currently craft.js have 9 prototyped functions for `sprite` , `graphics` and `group`
+
+* *Full Docs for phaser craft.js module upcoming*

@@ -24,6 +24,8 @@ var scope = {};
 module.exports = function(game,rootScope){
 	var state = {};
 
+	var craft = require('./modules/craft')(game);
+
 	state.init = function(){
 	}
 
@@ -35,12 +37,26 @@ module.exports = function(game,rootScope){
 	}
 
 	state.create = function(){
-		var sprite = utils.$newSprite(game,'phaser')
+		var group = craft.$g();
+
+		var sprite = craft.$sprite('phaser')
 		.$set({
 			x:100,
 			y:100
 		})
+		.$into(group)
+		.$mid()
 		.$tint('#FF0000');
+
+
+		var ball = craft.$circle({
+			fill:'#FF00FF',
+			size:40
+		}).$set({
+			x:200,
+			y:200,
+		})
+		.$into(group)
 	}
 
 	return state;

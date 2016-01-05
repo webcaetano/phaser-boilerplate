@@ -3,98 +3,21 @@ var _ = require('lodash');
 
 var self = {};
 
-self.createColorImage = function(game, source, color="#ffffff") {
-	var color = Phaser.Color.hexToColor(color);
-
-	return game.make.image(0, 0, game.add.bitmapData(source.width, source.height).fill(color.r, color.g, color.b)
-	.blendDestinationAtop()
-	.draw(source, 0, 0, source.width, source.height));
-}
-
-self.blink = function(game,objs,options){
-	var defaults = {
-		color:"#ffffff",
-		count:2,
-		delay:50,
-	}
-	options = _.extend({},defaults,options);
-	var noTint = '0xffffff';
-	if(!_.isArray(objs)) objs = [objs];
-	_.each(objs,function(obj,i){
-		var img = self.createColorImage(game,obj);
-		var originalTexture = obj.texture;
-		var oldTint = obj.tint;
-		var c = true;
-
-		self.repeat(game,options.delay,options.count,function(){
-			if(c){
-				obj.texture = img.texture;
-				obj.tint = noTint;
-			} else {
-				obj.texture = originalTexture;
-				obj.tint = oldTint;
-			}
-			c = !c;
-		},function(){
-			obj.texture = originalTexture;
-			img.destroy();
-		})
-	})
-}
-
-self.repeat = function(game,delay,count,callback,onComplete=null,playAtStart=false){
-	var timer = game.time.create(false);
-	if(playAtStart) callback();
-	timer.repeat(delay,playAtStart ? count-1 : count,callback)
-	timer.start();
-	timer.onComplete.addOnce(function(){
-		if(onComplete) onComplete();
-		timer.destroy();
-	});
-}
-
-self.loopUntil = function(game,delay,until,callback,onComplete=null){
-	var timer = game.time.create(false);
-	timer.loop(delay,callback)
-	timer.start();
-	timer.add(until,function(){
-		if(onComplete) onComplete();
-		timer.destroy();
-	})
-}
-
-self.ninePatch = function(game,options){
-	options = _.extend({},{width:100,key:"9window_",height:100},options);
-	var group = game.add.group();
-	var i = 1;
-	var slices = [];
-	var cSlot = 0;
-
-	_.each([-1,0,1],function(cVal,c){ // cols
-		var rSlot = 0;
-		_.each([-1,0,1],function(rVal,r){ // rows
-			var slicez = game.make.sprite(0,0,'gui');
-			slicez.frameName = options.key+i+_.padLeft(1,4,'0');
-			var slice = group.add(game.add.tileSprite(0,0,slicez.width,slicez.height,'gui',options.key+i+_.padLeft(1,4,'0')));
-			slicez.destroy();
-
-			slice.x = Math.ceil(rSlot+(rVal==-1 ? -slice.width : 0)+(rVal==1 ? options.width : 0))-r;
-			slice.y = Math.ceil(cSlot+(cVal==-1 ? -slice.height : 0)+(cVal==1 ? options.height : 0))-c;
-			if(rVal===0) slice.width = options.width;
-			if(cVal===0) slice.height = options.height;
-			slices.push(slice);
-			i++;
-		});
-	});
-	return group;
-}
-
-self.randInRange = function(point,range){
+self.randInRange = function(range){
 	var a = self.rand(0,360) * (Math.PI / 180);
 	var d = self.rand(0,(range/2));
 	return {
 		x:Math.cos(a) * d,
 		y:Math.sin(a) * d
+	}
+}
+
+self.radPos = function(point,angle,range){
+	var a = angle * (Math.PI / 180);
+	var d = range;
+	return {
+		x:point.x + (Math.cos(a) * d),
+		y:point.y + (Math.sin(a) * d)
 	}
 }
 
@@ -179,6 +102,11 @@ self.ifTrue = function($,def=null){
 	return $ ? $ : def;
 }
 
+self.copyPos = function(obj1,obj2){
+	obj1.x=obj2.x;
+	obj1.y=obj2.y;
+}
+
 self.loadAssets = function(game,assets){
 	var i;
 	for(i in assets.atlas) {
@@ -189,79 +117,6 @@ self.loadAssets = function(game,assets){
 	for(i in assets.audio) game.load.audio(i, assets.audio[i]);
 }
 
-self.copyPos = function(obj1,obj2){
-	obj1.x=obj2.x;
-	obj1.y=obj2.y;
-}
-
-self.$newSprite = function(game,key,options){
-	var defaults = {
-		x:0,
-		y:0,
-		frame:undefined,
-		group:undefined
-	};
-	options = _.extend({},defaults,options);
-	var tmpObj = game.add.sprite(options.x,options.y,key,options.frame,options.group);
-	// prototypes
-	tmpObj.$set = function(prop,val){
-		if(typeof prop==='string' && !!val){
-			this[prop]=val;
-		} else {
-			for(var i in prop){
-				if(i.indexOf('.')==-1){
-					this[i]=prop[i];
-				} else {
-					var pathObj = i.split(".");
-					var c = this;
-					for(var k=0;k<pathObj.length-1;k++) c=c[pathObj[k]];
-					c[pathObj[pathObj.length-1]]=prop[i];
-				}
-			}
-		}
-		return this;
-	};
-
-	tmpObj.$tint = function(color='ffffff'){
-		this.tint = '0x'+color.replace(/#/g,'');
-		return this;
-	}
-
-	tmpObj.$into = function(group){
-		group.add(this);
-		return this;
-	};
-
-	tmpObj.$mid = function(){
-		this.anchor.setTo(0.5);
-		return this;
-	}
-
-	tmpObj.$atlasImg = function(name,frame=1){
-		this.frameName = name+_.padLeft(frame,4,'0');
-		return this;
-	}
-
-	tmpObj.$atlasAnims = function(name,anims){
-		self.loadAltasAnimation(this,name,anims);
-		return this;
-	}
-
-	tmpObj.$fixPos = function(){
-		this.x = Math.floor(this.x);
-		this.y = Math.floor(this.y);
-		return this;
-	}
-
-	tmpObj.$copyPos = function(target){
-		this.x = target.x;
-		this.y = target.y;
-		return this;
-	};
-
-	return tmpObj;
-}
-
 self.setAtlasFrame = function(objs,frame=0,name=''){
 	if(!_.isArray(objs)) objs = [objs];
 	_.map(objs,function(obj,k){
@@ -269,12 +124,6 @@ self.setAtlasFrame = function(objs,frame=0,name=''){
 		obj.frameName = obj.name+_.padLeft(frame,4,'0');
 	})
 	return objs;
-}
-
-self.loadAltasAnimation = function(obj,name,anims,repeat={}){
-	_.each(anims,function(animation,k){
-		obj.animations.add(k, Phaser.Animation.generateFrameNames(name, animation.start, animation.end, '', 4), animation.rate, (repeat[k] ? true : false));
-	})
 }
 
 self.por = function(val,por,plus=true,fix=0){

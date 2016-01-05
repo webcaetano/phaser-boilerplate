@@ -5,6 +5,7 @@ var runSequence = require('run-sequence');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var exec = require('sync-exec');
+var surge = require('gulp-surge');
 
 var $ = require('gulp-load-plugins')({
 	pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -66,19 +67,30 @@ module.exports = function(options) {
 		runSequence('clean','prepare','html','rest',done);
 	});
 
-	gulp.task('d',function(done){
+	gulp.task('deploy',function(done){
 		var c = [
 			'cd dist',
 			'git init',
 			'git add .',
 			'git commit -m "Deploy to Github Pages"',
-			'git push --force git@github.com:webcaetano/phaser-boilerplate.git master:gh-pages'
+			'git push --force git@github.com:webcaetano/phaser-boilerplate.git master:gh-pages' // change adress to you repo
 		].join(" && ")
 		console.log(exec(c));
 		done();
 	})
 
-	gulp.task('deploy',function(done){
+	gulp.task('deploy:build',function(done){
 		runSequence('build','d',done)
+	});
+
+	gulp.task('surge:build',function(done){
+		runSequence('build','surge',done)
+	});
+
+	gulp.task('surge', function () {
+		return surge({
+			project: './dist',         // Path to your static build directory
+			domain: 'phaser-boilerplate.surge.sh'  // Your domain or Surge subdomain
+		})
 	});
 };

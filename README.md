@@ -36,7 +36,18 @@ gulp build
 
 ```
 gulp deploy
+``` 
+
+* *Change `gulp/build.js` adress repo `git@github.com:webcaetano/phaser-boilerplate.git` for yours*
+
+
+#### Deploy to [surge](http://surge.sh)
+
 ```
+gulp surge
+``` 
+
+* *Change `gulp/build.js` adress repo `domain: 'phaser-boilerplate.surge.sh'` for yours*
 
 #### Release a patch version (it auto change package.json and bower.json)
 
@@ -76,7 +87,7 @@ var sprite = craft.$sprite('phaser') // create the sprite with key 'phaser'
 }) // set atributes based on a object
 .$mid() // same as sprite.anchor.setTo(0.5)
 .$into(group) // insert into group
-.$tint('#FF0000'); // tint accept '#' or '0x' or '' 
+.$tint('#FF0000'); // tint accept '#' or '' 
 
 var ball = craft.$circle({ 
 	fill:'#FF00FF',
@@ -88,6 +99,8 @@ var ball = craft.$circle({
 }) // set position
 .$into(group) // insert into group
 ```
+
+Result : [phaser-boilerplate.surge.sh](phaser-boilerplate.surge.sh)
 
 Currently craft.js have 9 prototyped functions for `sprite` , `graphics` and `group`
 

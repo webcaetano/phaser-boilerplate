@@ -1,6 +1,7 @@
-![Phaser Logo](http://i.imgur.com/FurA10V.png?1)
+<p align="center"><img alt="Phaser logo" src="http://i.imgur.com/FurA10V.png?1"></p>
+<p align="center"><strong><sub><a href="https://github.com/webcaetano">@webcaetano</a> Phaser.io Boilerplate in Gulp ES6 (babel)</sub></strong></p>
 
-[@webcaetano](https://github.com/webcaetano) Phaser.io Boilerplate in Gulp ES6 (babel)
+
 
 ## Features
 

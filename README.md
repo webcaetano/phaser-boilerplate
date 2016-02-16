@@ -7,7 +7,7 @@
 
 - ES6
 - [Craft.js](https://github.com/webcaetano/craft) - helper for create and extend phaser objects functions in a chainable way
-- Utils.js - common gaming functions e.g.
+- Utils.js - common gaming functions
 
 
 ## Installation

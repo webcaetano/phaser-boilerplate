@@ -6,8 +6,8 @@
 ## Features
 
 - ES6
-- Craft.js module (helper for create and extend phaser objects functions in a chainable way)
-- Utils.js module (common gaming functions e.g.)
+- [Craft.js](https://github.com/webcaetano/craft) - helper for create and extend phaser objects functions in a chainable way
+- Utils.js - common gaming functions e.g.
 
 
 ## Installation

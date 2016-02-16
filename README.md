@@ -103,6 +103,4 @@ var ball = craft.$circle({
 
 Result : [phaser-boilerplate.surge.sh](phaser-boilerplate.surge.sh)
 
-Currently craft.js have 9 prototyped functions for `sprite` , `graphics` and `group`
-
-* *Full Docs for phaser craft.js module upcoming*
+[**Craft Repository**](https://github.com/webcaetano/craft)

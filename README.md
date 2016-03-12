@@ -103,4 +103,5 @@ var ball = craft.$circle({
 
 Result : [http://phaser-boilerplate.surge.sh](phaser-boilerplate.surge.sh)
 
-[**Craft Repository**](https://github.com/webcaetano/craft)
+#### See Also
+- [**Craft**](https://github.com/webcaetano/craft)

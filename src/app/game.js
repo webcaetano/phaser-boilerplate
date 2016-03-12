@@ -24,7 +24,7 @@ var scope = {};
 module.exports = function(game,rootScope){
 	var state = {};
 
-	var craft = require('./modules/craft')(game);
+	var craft = require('craft')(game);
 
 	state.init = function(){
 	}

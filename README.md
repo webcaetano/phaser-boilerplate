@@ -101,7 +101,7 @@ var ball = craft.$circle({
 .$into(group) // insert into group
 ```
 
-Result : [http://phaser-boilerplate.surge.sh](phaser-boilerplate.surge.sh)
+Result : http://phaser-boilerplate.surge.sh
 
 #### See Also
 - [**Craft**](https://github.com/webcaetano/craft)

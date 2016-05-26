@@ -1,28 +1,28 @@
 {
-	"name": "phaser-boilerplate",
-	"version": "2.0.1",
-	"dependencies": {
-		"lodash": "~3.10.1",
-		"phaser": "~2.4.3",
-		"tinycolor": "~1.2.1",
-		"phaser-craft": "~1.1.1",
-		"phaser-utils": "~1.0.1"
-	},
-	"devDependencies": {
-		"stats.js": "*",
-		"dat-gui": "git@github.com:webcaetano/dat.gui.git#53762381014f91f5d22c10515dbdec85a425c04c"
-	},
-	"externals": {
-		"tinycolor": "tinycolor",
-		"lodash": "_",
-		"craft": "$craft",
-		"phaser": "Phaser",
-		"$utils": "$utils",
-		"stats": "Stats"
-	},
-	"overrides": {
-		"phaser": {
-			"main": "build/custom/phaser-arcade-physics.js"
-		}
-	}
+  "name": "phaser-boilerplate",
+  "version": "2.0.1",
+  "dependencies": {
+    "lodash": "~4.13.1",
+    "tinycolor": "~1.2.1",
+    "phaser-craft": "~1.1.1",
+    "phaser-utils": "~1.0.1",
+    "phaser": "~2.4.8"
+  },
+  "devDependencies": {
+    "stats.js": "*",
+    "dat-gui": "git@github.com:webcaetano/dat.gui.git#53762381014f91f5d22c10515dbdec85a425c04c"
+  },
+  "externals": {
+    "tinycolor": "tinycolor",
+    "lodash": "_",
+    "craft": "$craft",
+    "phaser": "Phaser",
+    "$utils": "$utils",
+    "stats": "Stats"
+  },
+  "overrides": {
+    "phaser": {
+      "main": "build/custom/phaser-arcade-physics.js"
+    }
+  }
 }

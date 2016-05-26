@@ -7,7 +7,7 @@ var exec = require('sync-exec');
 var surge = require('gulp-surge');
 
 var $ = require('gulp-load-plugins')({
-	pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
+	pattern: ['gulp-*', 'del']
 });
 
 module.exports = function(options) {

@@ -3,8 +3,6 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var util = require('util');
-var cp = require('child_process');
-
 
 module.exports = function(options) {
 	function browserSyncInit(baseDir, browser) {

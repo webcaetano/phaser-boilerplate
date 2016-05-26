@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-var runSequence = require('run-sequence');
 
 module.exports = function(options) {
 	gulp.task('watch', gulp.series('inject','scripts:watch', function watch(done) {

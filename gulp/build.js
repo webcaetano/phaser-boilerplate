@@ -18,7 +18,6 @@ module.exports = function(options) {
 			.pipe($.rev())
 			.pipe($.if('*.js', $.preprocess({context: {dist: true}})))
 			.pipe($.if('*.js', $.uglify()))
-			.pipe($.if('*.css', $.csso()))
 			.pipe(assets.restore())
 			.pipe($.useref())
 			.pipe($.revReplace())

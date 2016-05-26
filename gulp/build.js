@@ -14,11 +14,9 @@ module.exports = function(options) {
 	gulp.task('html', gulp.series('inject', function html() {
 		var assets;
 		return gulp.src(options.tmp + '/serve/*.html')
-			.pipe(assets = $.useref.assets())
 			.pipe($.rev())
 			.pipe($.if('*.js', $.preprocess({context: {dist: true}})))
 			.pipe($.if('*.js', $.uglify()))
-			.pipe(assets.restore())
 			.pipe($.useref())
 			.pipe($.revReplace())
 			.pipe($.if('*.html', $.preprocess({context: {dist: true}})))
@@ -47,13 +45,13 @@ module.exports = function(options) {
 	});
 
 	gulp.task('rest', function (done) {
-		$.del([
+		return $.del([
 			options.dist + '/app',
-		], done);
+		]);
 	});
 
-	gulp.task('clean', function (done) {
-		$.del([options.dist + '/', options.tmp + '/'], done);
+	gulp.task('clean', function () {
+		return $.del([options.dist + '/', options.tmp + '/']);
 	});
 
 

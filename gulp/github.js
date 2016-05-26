@@ -16,7 +16,7 @@ module.exports = function(options) {
 		return function bump(){
 			return gulp.src(['./bower.json',packageSrc])
 			.pipe($.bump({
-				version: options.version,
+				// version: options.version,
 				type: type
 			}))
 			.pipe(gulp.dest('./'));

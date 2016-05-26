@@ -12,7 +12,7 @@ module.exports = function(options) {
 			watch: watch,
 			module: {
 				loaders: [
-					{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+					{ test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
 					{ test: /\.json$/, exclude: /node_modules/, loader: 'json'}
 				]
 			},

@@ -7,7 +7,6 @@ var cp = require('child_process');
 
 
 module.exports = function(options) {
-
 	function browserSyncInit(baseDir, browser) {
 		browser = browser === undefined ? 'default' : browser;
 
@@ -34,11 +33,12 @@ module.exports = function(options) {
 		});
 	}
 
-	gulp.task('serve', ['watch'], function () {
+	gulp.task('serve', gulp.series('watch', function serve(done) {
 		browserSyncInit([options.tmp + '/serve', options.src]);
-	});
+	}));
 
-	gulp.task('serve:dist', ['build'], function () {
+	gulp.task('serve:dist', gulp.series('build', function serve_dist(done) {
 		browserSyncInit(options.dist);
-	});
+		// done();
+	}));
 };

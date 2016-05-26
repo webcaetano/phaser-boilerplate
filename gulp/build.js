@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var runSequence = require('run-sequence');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var exec = require('sync-exec');
@@ -12,7 +11,7 @@ var $ = require('gulp-load-plugins')({
 });
 
 module.exports = function(options) {
-	gulp.task('html', ['inject'], function () {
+	gulp.task('html', gulp.series('inject', function html() {
 		var assets;
 		return gulp.src(options.tmp + '/serve/*.html')
 			.pipe(assets = $.useref.assets())
@@ -27,7 +26,7 @@ module.exports = function(options) {
 			.pipe($.if('*.html', $.minifyHtml({empty: true,	spare: true, quotes: true, conditionals: true})))
 			.pipe(gulp.dest(options.dist + '/'))
 			.pipe($.size({ title: options.dist + '/', showFiles: true }));
-	});
+	}));
 
 	gulp.task('images:dist',function(){
 		return gulp.src([
@@ -59,13 +58,9 @@ module.exports = function(options) {
 	});
 
 
-	gulp.task('prepare',function(done){
-		runSequence('clean','images:dist','other',done);
-	});
+	gulp.task('prepare',gulp.series('clean','images:dist','other'));
 
-	gulp.task('build',function(done){
-		runSequence('clean','prepare','html','rest',done);
-	});
+	gulp.task('build',gulp.series('clean','prepare','html','rest'));
 
 	gulp.task('deploy',function(done){
 		var c = [
@@ -75,17 +70,10 @@ module.exports = function(options) {
 			'git commit -m "Deploy to Github Pages"',
 			'git push --force git@github.com:webcaetano/phaser-boilerplate.git master:gh-pages' // change adress to you repo
 		].join(" && ")
-		console.log(exec(c));
 		done();
 	})
 
-	gulp.task('deploy:build',function(done){
-		runSequence('build','d',done)
-	});
-
-	gulp.task('surge:build',function(done){
-		runSequence('build','surge',done)
-	});
+	// gulp.task('deploy:build',gulp.series('build','d'));
 
 	gulp.task('surge', function () {
 		return surge({
@@ -93,4 +81,6 @@ module.exports = function(options) {
 			domain: 'phaser-boilerplate.surge.sh'  // Your domain or Surge subdomain
 		})
 	});
+
+	gulp.task('surge:build',gulp.series('build','surge'));
 };

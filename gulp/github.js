@@ -5,12 +5,9 @@ var path = require('path');
 var gulp = require('gulp');
 var git = require('gulp-git');
 var tag_version = require('gulp-tag-version');
-// var mysqlDump = require('mysqldump');
-var runSequence = require('run-sequence');
 var argv = require('yargs').argv;
 
 var $ = require('gulp-load-plugins')();
-
 
 module.exports = function(options) {
 	var packageSrc = './package.json';
@@ -24,14 +21,6 @@ module.exports = function(options) {
 		}))
 		.pipe(gulp.dest('./'));
 	}
-
-	gulp.task('release',function(done){
-		return runSequence('bump', 'git:commit_release','git:tag','git:push',function(){
-			process.exit();
-		});
-	})
-
-	gulp.task('r',['release']);
 
 	gulp.task('git:tag', function () {
 		return gulp.src(packageSrc)
@@ -54,22 +43,20 @@ module.exports = function(options) {
 			.pipe(git.add({args: " -A"}));
 	});
 
-	gulp.task('git:commit_release', ['git:add'], function () {
+	gulp.task('git:commit_release', gulp.series('git:add', function commit_release () {
 		var pkg = JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json')));
 		return gulp.src('./')
 			.pipe(git.commit('v '+pkg.version));
-	});
+	}));
 
-	gulp.task('git:commit', ['git:add'], function () {
+	gulp.task('git:commit', gulp.series('git:add', function commit () {
 		return gulp.src('./')
 			.pipe(git.commit((argv.m && argv!==true  ?  argv.m : 'Minor changes :coffee:')));
-	});
+	}));
 
-	gulp.task('p', function(){
-		runSequence('git:commit','git:push',function(){
-			process.exit();
-		});
-	});
+	gulp.task('p', gulp.series('git:commit','git:push', function p(){
+		process.exit();
+	}));
 
 	gulp.task('bump', function () {
 		return bump(argv.major ? 'major' : (argv.minor ? 'minor' : 'patch'));
@@ -98,4 +85,10 @@ module.exports = function(options) {
 	gulp.task('major', function (done) {
 		runSequence('bump:major','git:commit_release','git:tag','git:push',done);
 	});
+
+	gulp.task('release', gulp.series('bump', 'git:commit_release', 'git:tag', 'git:push', function release(done){
+		process.exit();
+	}));
+
+	gulp.task('r',gulp.series('release'));
 }

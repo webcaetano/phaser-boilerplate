@@ -1,6 +1,6 @@
 {
   "name": "phaser-boilerplate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "dependencies": {},
   "scripts": {
     "test": "gulp test"
@@ -13,7 +13,7 @@
     "concat-stream": "~1.4.7",
     "del": "~1.1.1",
     "glob": "^5.0.14",
-    "gulp": "^3.9.0",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "~2.1.0",
     "gulp-bump": "^1.0.0",
     "gulp-csso": "~1.0.0",
@@ -43,7 +43,6 @@
     "lodash": "^4.6.1",
     "main-bower-files": "~2.5.0",
     "require-dir": "~0.1.0",
-    "run-sequence": "^1.1.2",
     "source-map-support": "^0.3.2",
     "sync-exec": "^0.6.2",
     "uglify-save-license": "~0.4.1",

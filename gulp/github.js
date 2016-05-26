@@ -12,14 +12,15 @@ var $ = require('gulp-load-plugins')();
 module.exports = function(options) {
 	var packageSrc = './package.json';
 
-	var bump = function(type){
-		if(!type) type = 'patch'
-		return gulp.src(['./bower.json',packageSrc])
-		.pipe($.bump({
-			version: options.version,
-			type: type
-		}))
-		.pipe(gulp.dest('./'));
+	var bump = function(type='patch'){
+		return function bump(){
+			return gulp.src(['./bower.json',packageSrc])
+			.pipe($.bump({
+				version: options.version,
+				type: type
+			}))
+			.pipe(gulp.dest('./'));
+		}
 	}
 
 	gulp.task('git:tag', function () {
@@ -36,7 +37,7 @@ module.exports = function(options) {
 			if(err) console.error(err);
 			done();
 		});
-	})
+	});
 
 	gulp.task('git:add', function () {
 		return gulp.src(packageSrc)
@@ -51,40 +52,22 @@ module.exports = function(options) {
 
 	gulp.task('git:commit', gulp.series('git:add', function commit () {
 		return gulp.src('./')
-			.pipe(git.commit((argv.m && argv!==true  ?  argv.m : 'Minor changes :coffee:')));
+		.pipe(git.commit((argv.m && argv!==true  ?  argv.m : 'Minor changes :coffee:')));
 	}));
 
 	gulp.task('p', gulp.series('git:commit','git:push', function p(){
 		process.exit();
 	}));
 
-	gulp.task('bump', function () {
-		return bump(argv.major ? 'major' : (argv.minor ? 'minor' : 'patch'));
-	});
+	gulp.task('bump', gulp.series(bump(argv.major ? 'major' : (argv.minor ? 'minor' : 'patch'))));
 
-	gulp.task('bump:patch', function () {
-		return bump('patch');
-	});
+	gulp.task('bump:patch', gulp.series(bump('patch')));
+	gulp.task('bump:minor', gulp.series(bump('minor')));
+	gulp.task('bump:major', gulp.series(bump('major')));
 
-	gulp.task('bump:minor', function () {
-		return bump('minor');
-	});
-
-	gulp.task('bump:major', function () {
-		return bump('major');
-	});
-
-	gulp.task('patch', function (done) {
-		runSequence('bump:patch','git:commit_release','git:tag','git:push',done);
-	});
-
-	gulp.task('minor', function (done) {
-		runSequence('bump:minor','git:commit_release','git:tag','git:push',done);
-	});
-
-	gulp.task('major', function (done) {
-		runSequence('bump:major','git:commit_release','git:tag','git:push',done);
-	});
+	gulp.task('patch', gulp.series(bump('patch'),'git:commit_release','git:tag','git:push'));
+	gulp.task('minor', gulp.series(bump('minor'),'git:commit_release','git:tag','git:push'));
+	gulp.task('major', gulp.series(bump('major'),'git:commit_release','git:tag','git:push'));
 
 	gulp.task('release', gulp.series('bump', 'git:commit_release', 'git:tag', 'git:push', function release(done){
 		process.exit();

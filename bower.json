@@ -5,7 +5,8 @@
     "lodash": "~3.10.1",
     "phaser": "~2.4.3",
     "tinycolor": "~1.2.1",
-    "phaser-craft": "~1.0.0"
+    "phaser-craft": "~1.1.1",
+    "phaser-utils": "~1.0.1"
   },
   "devDependencies": {
     "stats.js": "*",
@@ -16,6 +17,7 @@
     "lodash": "_",
     "craft": "$craft",
     "phaser": "Phaser",
+    "$utils": "$utils",
     "stats": "Stats"
   },
   "overrides": {

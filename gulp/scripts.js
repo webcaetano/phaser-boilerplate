@@ -3,12 +3,11 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var fs = require('fs');
-var $ = require('gulp-load-plugins')();
+var $ = require('gulp-load-plugins')();;
+var gulpWebpack = require('webpack-stream');
 
 module.exports = function(options) {
-	function webpack(watch, callback, reload) {
-		if(!callback) callback = null;
-		if(!reload) reload = null;
+	function webpack(watch=false, callback=null, reload=null) {
 		var webpackOptions = {
 			watch: watch,
 			module: {
@@ -43,7 +42,7 @@ module.exports = function(options) {
 		};
 
 		return gulp.src(options.src + '/app/index.js')
-			.pipe($.webpack(webpackOptions, null, webpackChangeHandler))
+			.pipe(gulpWebpack(webpackOptions, null, webpackChangeHandler))
 			.pipe(gulp.dest(options.tmp + '/serve/app'));
 	}
 

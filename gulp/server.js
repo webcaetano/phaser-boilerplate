@@ -5,9 +5,7 @@ var browserSync = require('browser-sync');
 var util = require('util');
 
 module.exports = function(options) {
-	function browserSyncInit(baseDir, browser) {
-		browser = browser === undefined ? 'default' : browser;
-
+	function browserSyncInit(baseDir, browser='default', done) {
 		var routes = null;
 		if(baseDir === options.src || (util.isArray(baseDir) && baseDir.indexOf(options.src) !== -1)) {
 			routes = {
@@ -29,14 +27,10 @@ module.exports = function(options) {
 			// port:4000,
 			open: false
 		});
+
+		done();
 	}
 
-	gulp.task('serve', gulp.series('watch', function serve(done) {
-		browserSyncInit([options.tmp + '/serve', options.src]);
-	}));
-
-	gulp.task('serve:dist', gulp.series('build', function serve_dist(done) {
-		browserSyncInit(options.dist);
-		// done();
-	}));
+	gulp.task('serve', gulp.series('watch', browserSyncInit.bind(null,[options.tmp + '/serve', options.src],null)));
+	gulp.task('serve:dist', gulp.series('build', browserSyncInit.bind(null,options.dist,null)));
 };

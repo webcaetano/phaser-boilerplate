@@ -48,10 +48,9 @@ module.exports = function(game,rootScope){
 		.$mid()
 		.$tint('#FF0000');
 
-
 		var ball = craft.$circle({
-			fill:'#FF00FF',
-			size:40
+			fill:'#00D8E0',
+			size:50
 		}).$set({
 			x:200,
 			y:200,

@@ -28,13 +28,3 @@ _.each([
 })
 
 gulp.task('default', gulp.series('clean','serve'));
-
-
-gulp.task('bola',function(done){
-	console.log('y')
-	done();
-})
-gulp.task('test',gulp.series('bola',function test(done){
-	console.log("x")
-	done();
-}))

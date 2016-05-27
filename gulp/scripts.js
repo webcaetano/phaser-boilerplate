@@ -2,31 +2,36 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
+var gutil = require('gulp-util');
 var fs = require('fs');
 var $ = require('gulp-load-plugins')();;
-var gulpWebpack = require('webpack-stream');
+
 
 module.exports = function(options) {
 	function webpack(watch=false, callback=null, reload=null) {
 		var webpackOptions = {
 			watch: watch,
+			cache: watch,
 			module: {
 				loaders: [
 					{ test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
 					{ test: /\.json$/, exclude: /node_modules/, loader: 'json'}
 				]
 			},
+			plugins:[function(){
+				this.plugin("done", function(stats){
+					if (stats.compilation.errors && stats.compilation.errors.length)gutil.beep();
+				});
+			}],
 			externals: JSON.parse(fs.readFileSync('./bower.json','utf8')).externals,
 			output: { filename: 'index.js' }
 		};
 
-		if(watch) {
-			webpackOptions.devtool = 'inline-source-map';
-		}
+		if(watch) webpackOptions.devtool = 'inline-source-map';
 
 		var webpackChangeHandler = function(err, stats) {
 			if(err) {
-				options.errorHandler('Webpack')(err);
+				options.errorHandler('WEBPACK')(err);
 			}
 			$.util.log(stats.toString({
 				colors: $.util.colors.supportsColor,
@@ -42,8 +47,8 @@ module.exports = function(options) {
 		};
 
 		return gulp.src(options.src + '/app/index.js')
-			.pipe(gulpWebpack(webpackOptions, null, webpackChangeHandler))
-			.pipe(gulp.dest(options.tmp + '/serve/app'));
+			.pipe($.webpack(webpackOptions, null, webpackChangeHandler))
+			.pipe(gulp.dest(options.tmp + '/serve/app'))
 	}
 
 	gulp.task('scripts', function () {
@@ -54,5 +59,3 @@ module.exports = function(options) {
 		return webpack(true, callback, true);
 	});
 };
-
-

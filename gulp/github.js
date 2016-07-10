@@ -46,8 +46,8 @@ module.exports = function(options) {
 
 	gulp.task('git:commit_release', gulp.series('git:add', function commit_release () {
 		var pkg = JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json')));
-		var msg = ['v '+pkg.version];
-		if(argv.m && argv!==true) msg.push('v '+pkg.version, argv.m);
+		var msg = 'v '+pkg.version;
+		if(argv.m && argv!==true) msg = [msg].push('v '+pkg.version, argv.m);
 
 		return gulp.src('./')
 			.pipe(git.commit(msg));

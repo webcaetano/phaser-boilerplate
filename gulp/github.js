@@ -31,7 +31,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('git:push',function(done){
-		return git.push('origin', 'master', {
+		return git.push('origin', 'HEAD', {
 			args: '--tags'
 		},function(err){
 			if(err) console.error(err);
@@ -41,13 +41,16 @@ module.exports = function(options) {
 
 	gulp.task('git:add', function () {
 		return gulp.src(packageSrc)
-			.pipe(git.add({args: " -A"}));
+			.pipe(git.add({args: ". -A"}));
 	});
 
 	gulp.task('git:commit_release', gulp.series('git:add', function commit_release () {
 		var pkg = JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json')));
+		var msg = ['v '+pkg.version];
+		if(argv.m && argv!==true) msg.push('v '+pkg.version, argv.m);
+
 		return gulp.src('./')
-			.pipe(git.commit('v '+pkg.version));
+			.pipe(git.commit(msg));
 	}));
 
 	gulp.task('git:commit', gulp.series('git:add', function commit () {

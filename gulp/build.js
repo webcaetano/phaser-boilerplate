@@ -67,6 +67,7 @@ module.exports = function(options) {
 			'git commit -m "Deploy to Github Pages"',
 			'git push --force git@github.com:webcaetano/phaser-boilerplate.git master:gh-pages' // change adress to you repo
 		].join(" && ")
+		console.log(exec(c));
 		done();
 	})
 

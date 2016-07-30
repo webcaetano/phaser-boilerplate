@@ -1,6 +1,6 @@
 {
   "name": "phaser-boilerplate",
-  "version": "2.0.7",
+  "version": "2.1.0",
   "dependencies": {
     "phaser": "~2.4.8",
     "lodash": "~4.13.1",

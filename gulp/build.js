@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var exec = require('sync-exec');
+var filter = require('gulp-filter');
 var surge = require('gulp-surge');
 
 var $ = require('gulp-load-plugins')({
@@ -12,15 +13,21 @@ var $ = require('gulp-load-plugins')({
 
 module.exports = function(options) {
 	gulp.task('html', gulp.series('inject', function html() {
+		var jsFilter = filter("**/*.js", { restore: true });
+		var cssFilter = filter("**/*.css", { restore: true });
+		var indexHtmlFilter = filter(['**/*', '!**/index.html'], { restore: true });
+
+
 		var assets;
 		return gulp.src(options.tmp + '/serve/*.html')
-			.pipe($.rev())
+			// .pipe($.rev())
 			.pipe($.if('*.js', $.preprocess({context: {dist: true}})))
 			.pipe($.if('*.js', $.uglify()))
-			.pipe($.useref())
-			.pipe($.revReplace())
 			.pipe($.if('*.html', $.preprocess({context: {dist: true}})))
 			.pipe($.if('*.html', $.minifyHtml({empty: true,	spare: true, quotes: true, conditionals: true})))
+			.pipe($.if('*.html', $.rev()))
+			.pipe($.if('*.html', $.revReplace()))
+
 			.pipe(gulp.dest(options.dist + '/'))
 			.pipe($.size({ title: options.dist + '/', showFiles: true }));
 	}));

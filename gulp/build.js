@@ -46,7 +46,7 @@ module.exports = function(options) {
 
 	gulp.task('rest', function (done) {
 		return $.del([
-			options.dist + '/app',
+			options.dist + '/scripts',
 		]);
 	});
 

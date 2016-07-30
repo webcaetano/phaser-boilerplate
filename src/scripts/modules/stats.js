@@ -15,6 +15,8 @@ module.exports = function(options){
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.right = '0px';
 	stats.domElement.style.bottom = '0px';
+	stats.domElement.style.top = 'auto';
+	stats.domElement.style.left = 'auto';
 
 	document.body.appendChild(stats.domElement);
 

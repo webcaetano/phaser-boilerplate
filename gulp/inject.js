@@ -9,7 +9,7 @@ var wiredep = require('wiredep').stream;
 module.exports = function(options) {
 	gulp.task('inject', gulp.series('scripts', function inject() {
 		var injectScripts = gulp.src([
-			options.tmp + '/serve/{app,components}/**/*.js',
+			options.tmp + '/serve/scripts/**/*.js',
 		], { read: false });
 
 		var injectOptions = {

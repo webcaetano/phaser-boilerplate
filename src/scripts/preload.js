@@ -3,6 +3,17 @@ var _ = require('lodash');
 var Phaser = require('phaser');
 var {scope,game,craft} = require('./main');
 
+
+var assets = {
+	images:{
+		phaser:'images/phaser-dude.png'
+	},
+	sprites:{},
+	audio:{},
+	atlas:{}
+}
+var scope = {};
+
 module.exports = function(){
 	var state = {};
 
@@ -12,12 +23,12 @@ module.exports = function(){
 	state.preload = function(){
 		game.stage.disableVisibilityChange = false;
 		game.stage.backgroundColor = '#fff';
+		utils.loadAssets(game,assets);
 		game.load.start();
 	}
 
 	state.create = function(){
-		require('./game/layers');
-		require('./game/test');
+		game.state.start('game');
 	}
 
 	return state;

@@ -1,24 +1,29 @@
-var utils = require('utils');
-var _ = require('lodash');
 var Phaser = require('phaser');
-// var browser = browserDetection();
-var rootScope = {
+var main = require('./main');
+
+var setup = {
 	options:{
 		width:700,
 		height:500,
 		where:'master-canvas'
 	},
-	debug:false // make sure set it to false when release
 }
 
 // @if !dist
 require('./modules/stats')();
 // @endif
 
+var game = main.game = new Phaser.Game(
+	setup.options.width,
+	setup.options.height,
+	Phaser.CANVAS,
+	setup.options.where,
+	null,
+);
 
-var game = new Phaser.Game(rootScope.options.width, rootScope.options.height, Phaser.CANVAS, rootScope.options.where, rootScope.options.where);
+main.craft = require('craft')(game);
 
-game.state.add('game', require('./game')(game,rootScope));
+game.state.add('game', require('./game'));
+game.state.add('preload', require('./preload'));
 
-// game.state.start('blank');
-game.state.start('game');
+game.state.start('preload');

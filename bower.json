@@ -2,7 +2,7 @@
   "name": "phaser-boilerplate",
   "version": "3.0.0",
   "dependencies": {
-    "phaser": "~2.4.8",
+    "phaser": "^2.6.1",
     "lodash": "~4.13.1",
     "tinycolor": "~1.2.1",
     "phaser-craft": "~1.4.1",

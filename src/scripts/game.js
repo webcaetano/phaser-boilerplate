@@ -1,12 +1,14 @@
 var utils = require('utils');
 var _ = require('lodash');
 var Phaser = require('phaser');
+var main = require('./main');
 var {scope,game,craft} = require('./main');
 
 module.exports = function(){
 	var state = {};
 
 	state.init = function(){
+		main.scope = require('./scope')();
 	}
 
 	state.preload = function(){
@@ -16,8 +18,10 @@ module.exports = function(){
 	}
 
 	state.create = function(){
-		require('./game/layers');
-		require('./game/test');
+		require('./game/layers')();
+		require('./game/controllers')();
+		require('./game/events')();
+		require('./game/test')();
 	}
 
 	return state;

@@ -1,5 +1,8 @@
 var Phaser = require('phaser');
 var main = require('./main');
+var pkg = require('./pkg.json');
+
+console.log('%c '+pkg.name+' v'+pkg.version+' ', 'background: #002874; color: #ffffff');
 
 var setup = {
 	options:{

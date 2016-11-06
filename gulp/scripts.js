@@ -15,14 +15,17 @@ module.exports = function(options) {
 			module: {
 				loaders: [
 					{ test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
-					{ test: /\.json$/, exclude: /node_modules/, loader: 'json'}
+					{ test: /\.json$/, exclude: /node_modules/, loader: 'json'},
+					{ test: /\.json\.js/, exclude: /node_modules/, loader: 'tojson'}
 				]
 			},
-			plugins:[function(){
-				this.plugin("done", function(stats){
-					if (stats.compilation.errors && stats.compilation.errors.length)gutil.beep();
-				});
-			}],
+			plugins:[
+				function(){
+					this.plugin("done", function(stats){
+						if (stats.compilation.errors && stats.compilation.errors.length)gutil.beep();
+					});
+				}
+			],
 			externals: JSON.parse(fs.readFileSync('./bower.json','utf8')).externals,
 			output: { filename: 'index.js' }
 		};

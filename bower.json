@@ -5,12 +5,12 @@
     "phaser": "^2.6.1",
     "lodash": "~4.13.1",
     "tinycolor": "~1.2.1",
-    "phaser-craft": "~1.4.1",
+    "phaser-craft": "^1.5.1",
     "phaser-utils": "^1.1.2"
   },
   "devDependencies": {
-    "stats.js": "*",
-    "dat-gui": "git@github.com:webcaetano/dat.gui.git#53762381014f91f5d22c10515dbdec85a425c04c"
+    "stats.js": "git@github.com:mrdoob/stats.js.git#c93fcbfe64062b05bce137fdf3465a195af25e14",
+    "dat-gui": "git@github.com:webcaetano/dat.gui.git#cd826390f9c7e8c40a159ee7fcf7b7f2bbdc300c"
   },
   "externals": {
     "phaser": "Phaser",

@@ -15,7 +15,7 @@ module.exports = function(options) {
 			module: {
 				loaders: [
 					{ test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
-					{ test: /\.json$/, exclude: /node_modules/, loader: 'json'},
+					{ test: /\.json$/, exclude: /node_modules/, loader: 'json-loader'},
 					{ test: /\.json\.js/, exclude: /node_modules/, loader: 'tojson'}
 				]
 			},
